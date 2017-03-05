@@ -1,8 +1,13 @@
-package test; 
+package test;
+
 
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.util.EventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 
 public class MainEditor extends JFrame {
@@ -48,6 +53,41 @@ public class MainEditor extends JFrame {
         }
     }
     
+    public class createActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+
+
+            setSize(450,350);
+            setVisible(true);
+            setTitle("ArtBoard");
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
+    }
+
+
+    //ToDo Filter, Open, Save 
+
+    public class FilterActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+
+
+        }
+    }
+    public class OpenActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+
+        }
+    }
+    public class SaveActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+
+
+        }
+    }
+
+
+
+
     public void CreatePanel() {
         
         red = new JLabel("rot:", SwingConstants.CENTER);
@@ -76,10 +116,15 @@ public class MainEditor extends JFrame {
         add(top, BorderLayout.NORTH);
         top.setLayout(new GridLayout(2,2));
         
-        JButton bNew = new Button("New");
-        JButton bFilter = new Button("Filter");
-        JButton bOpen = new Button("Open");
-        JButton bSave = new Button("Save");
+        JButton bNew = new JButton("New");
+        bNew.addActionListener(new createActionListener());
+        JButton bFilter = new JButton("Filter");
+        bFilter.addActionListener(new FilterActionListener());
+        JButton bOpen = new JButton("Open");
+        bOpen.addActionListener(new OpenActionListener());
+        JButton bSave = new JButton("Save");
+        bSave.addActionListener(new SaveActionListener());
+
 
         top.add(bNew);
         top.add(bFilter);
