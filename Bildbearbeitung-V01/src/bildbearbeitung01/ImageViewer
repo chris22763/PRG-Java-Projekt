@@ -1,5 +1,3 @@
-package bildbearbeitung;
-
 import javax.swing.*;
 
 public class ImageViewer
