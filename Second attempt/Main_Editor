@@ -2,11 +2,26 @@
 
 
 import java.awt.*;
+import java.awt.event.*;
+import java.awt.RenderingHints.Key;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.EventListener;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
-import java.util.EventListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.border.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import javafx.scene.input.MouseEvent;
 
 
 
@@ -53,6 +68,8 @@ public class MainEditor extends JFrame {
         }
     }
     
+
+    //New Window
     public class createActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             MainEditor changer = new MainEditor();
@@ -61,19 +78,22 @@ public class MainEditor extends JFrame {
     }
 
 
-    //ToDo Filter, Open, Save 
-
+    //Filter
     public class FilterActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
 
 
         }
     }
+
+    //Open
     public class OpenActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
-
+            MainEditor changer = new MainEditor();
+            changer.CreatePanel("Artboard");
         }
     }
+    //Save
     public class SaveActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
 
@@ -83,46 +103,50 @@ public class MainEditor extends JFrame {
 
     //Draw funktion.........
 
-    public void setColor(Color color) {
-        this.color = color;
-        clear(colorSample);
+
+    //Oeffnen .... 
+
+    public class Oeffner implements ImageObserver {
+       private Image image;
+     
+       public Oeffner(Image image) {
+          setImage(image);
+       }
+     
+       public void setImage(Image image) {
+          this.image = image;
+          repaint();
+       }
+       
+       public Dimension getPreferredSize() {
+           return new Dimension(image.getWidth(this), image.getHeight(this));
+       }
+     
+       public void paint(Graphics g) {
+          super.paint(g);
+          if(image != null) {
+             g.drawImage(image, 0, 0, this);
+          }
+       }
+
+    @Override
+    public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+        // TODO Auto-generated method stub
+        return false;
+    }
     }
 
-    public void draw(Point point) {
-        Graphics2D g = this.canvasImage.createGraphics();
-        g.setRenderingHints(renderingHints);
-        g.setColor(this.color);
-        g.setStroke(stroke);
-        int n = 0;
-        g.drawLine(point.x, point.y, point.x+n, point.y+n);
-        g.dispose();
-        this.imageLabel.repaint();
-    }
+    JFileChooser chooser = null;
 
-    class ImageMouseListener extends MouseAdapter {
-
-        @Override
-        public void mousePressed(MouseEvent arg0) {
-            draw(arg0.getPoint());
+    public JFileChooser getFileChooser() {
+        if (chooser==null) {
+            chooser = new JFileChooser();
+            FileNameExtensionFilter ff = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+            chooser.setFileFilter(ff);
         }
-    }
-
-    class ImageMouseMotionListener implements MouseMotionListener {
-
-        @Override
-        public void mouseDragged(MouseEvent arg0) {
-            reportPositionAndColor(arg0);
-            draw(arg0.getPoint());
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent arg0) {
-            reportPositionAndColor(arg0);
-        }
+        return chooser;
 
     }
-
-
 
 
     public void CreatePanel(String title) {
@@ -225,7 +249,7 @@ public class MainEditor extends JFrame {
             sBlue.addChangeListener(new blueChangeListener());
             setLayout(new BorderLayout());
             
-
+   
 
             buttonField = new JPanel();
             buttonField.setBackground(Color.WHITE);
@@ -271,6 +295,12 @@ public class MainEditor extends JFrame {
             sliderField.add(green);
             sliderField.add(sGreen);
             sliderField.add(tGreen);
+            
+
+            drawPanel = new JPanel();
+            add(drawPanel, BorderLayout.CENTER);
+            drawPanel.setBackground(color.WHITE);
+
             
             tools = new JPanel();
             tools.setBackground(Color.WHITE);
