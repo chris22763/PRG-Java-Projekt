@@ -1,4 +1,4 @@
-package test;
+
 
 
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 public class MainEditor extends JFrame {
 
-    private JPanel top, middle, bottom;
+    private JPanel tools, buttonField, colorpicker, sliderField, drawPanel, right;
     private JSlider sRed, sGreen, sBlue;
     private JLabel red, green, blue;
     private JTextField tRed, tGreen, tBlue;
@@ -26,14 +26,14 @@ public class MainEditor extends JFrame {
     
     public static void main(String [] args) {
         MainEditor changer = new MainEditor();
-        changer.CreatePanel();
+        changer.CreatePanel("MainEditor");
     }
     
     public class redChangeListener implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
             tRed.setText(String.valueOf(sRed.getValue()));
             color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
-            middle.setBackground(color);
+            colorpicker.setBackground(color);
         }
     }
     
@@ -41,7 +41,7 @@ public class MainEditor extends JFrame {
         public void stateChanged(ChangeEvent e) {
             tGreen.setText(String.valueOf(sGreen.getValue()));
             color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
-            middle.setBackground(color);
+            colorpicker.setBackground(color);
         }
     }
     
@@ -49,18 +49,14 @@ public class MainEditor extends JFrame {
         public void stateChanged(ChangeEvent e) {
             tBlue.setText(String.valueOf(sBlue.getValue()));
             color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
-            middle.setBackground(color);
+            colorpicker.setBackground(color);
         }
     }
     
     public class createActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
-
-
-            setSize(450,350);
-            setVisible(true);
-            setTitle("ArtBoard");
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            MainEditor changer = new MainEditor();
+            changer.CreatePanel("Artboard");
         }
     }
 
@@ -85,87 +81,213 @@ public class MainEditor extends JFrame {
         }
     }
 
+    //Draw funktion.........
+
+    public void setColor(Color color) {
+        this.color = color;
+        clear(colorSample);
+    }
+
+    public void draw(Point point) {
+        Graphics2D g = this.canvasImage.createGraphics();
+        g.setRenderingHints(renderingHints);
+        g.setColor(this.color);
+        g.setStroke(stroke);
+        int n = 0;
+        g.drawLine(point.x, point.y, point.x+n, point.y+n);
+        g.dispose();
+        this.imageLabel.repaint();
+    }
+
+    class ImageMouseListener extends MouseAdapter {
+
+        @Override
+        public void mousePressed(MouseEvent arg0) {
+            draw(arg0.getPoint());
+        }
+    }
+
+    class ImageMouseMotionListener implements MouseMotionListener {
+
+        @Override
+        public void mouseDragged(MouseEvent arg0) {
+            reportPositionAndColor(arg0);
+            draw(arg0.getPoint());
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent arg0) {
+            reportPositionAndColor(arg0);
+        }
+
+    }
 
 
 
-    public void CreatePanel() {
+
+    public void CreatePanel(String title) {
+        if (title == "MainEditor"){
+            red = new JLabel("rot:", SwingConstants.CENTER);
+            green = new JLabel("grün:", SwingConstants.CENTER);
+            blue = new JLabel("blau:", SwingConstants.CENTER);
+            
+            tRed = new JTextField();
+            tRed.setText(String.valueOf(red_init));
+            tGreen = new JTextField();
+            tGreen.setText(String.valueOf(green_init));
+            tBlue = new JTextField();
+            tBlue.setText(String.valueOf(blue_init));
+            
+            sRed = new JSlider(JSlider.HORIZONTAL,red_min, red_max, red_init);
+            sRed.addChangeListener(new redChangeListener());
+            sGreen = new JSlider(JSlider.HORIZONTAL,green_min, green_max, green_init);
+            sGreen.addChangeListener(new greenChangeListener());
+            sBlue = new JSlider(JSlider.HORIZONTAL,blue_min, blue_max,blue_init);
+            sBlue.addChangeListener(new blueChangeListener());
+            setLayout(new BorderLayout());
+            
+
+
+            buttonField = new JPanel();
+            buttonField.setBackground(Color.WHITE);
+            add(buttonField, BorderLayout.NORTH);
+            buttonField.setLayout(new GridLayout(2,2));
+            
+            JButton bNew = new JButton("New");
+            bNew.addActionListener(new createActionListener());
+            JButton bFilter = new JButton("Filter");
+            bFilter.addActionListener(new FilterActionListener());
+            JButton bOpen = new JButton("Open");
+            bOpen.addActionListener(new OpenActionListener());
+            JButton bSave = new JButton("Save");
+            bSave.addActionListener(new SaveActionListener());
+
+
+            buttonField.add(bNew);
+            buttonField.add(bFilter);
+            
+            buttonField.add(bOpen);
+            buttonField.add(bSave);
+
+
+
+
+            colorpicker = new JPanel();
+            color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
+            colorpicker.setBackground(color);
+            Dimension d = new Dimension(400,190);
+            colorpicker.setPreferredSize(d);
+            add(colorpicker, BorderLayout.CENTER);
+
+            
+
+            
+            sliderField = new JPanel();
+            add(sliderField, BorderLayout.SOUTH);
+            sliderField.setLayout(new GridLayout(3,3));
+
+            sliderField.add(red);
+            sliderField.add(sRed);
+            sliderField.add(tRed);
+            
+            sliderField.add(blue);
+            sliderField.add(sBlue);
+            sliderField.add(tBlue);
+
+            sliderField.add(green);
+            sliderField.add(sGreen);
+            sliderField.add(tGreen);
+
         
-        red = new JLabel("rot:", SwingConstants.CENTER);
-        green = new JLabel("grün:", SwingConstants.CENTER);
-        blue = new JLabel("blau:", SwingConstants.CENTER);
+            setSize(450,350);
+            setVisible(true);
+            setTitle(title);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+            
+        } else if (title == "Artboard"){
+            red = new JLabel("rot:", SwingConstants.CENTER);
+            green = new JLabel("grün:", SwingConstants.CENTER);
+            blue = new JLabel("blau:", SwingConstants.CENTER);
+            
+            tRed = new JTextField();
+            tRed.setText(String.valueOf(red_init));
+            tGreen = new JTextField();
+            tGreen.setText(String.valueOf(green_init));
+            tBlue = new JTextField();
+            tBlue.setText(String.valueOf(blue_init));
+            
+            sRed = new JSlider(JSlider.HORIZONTAL,red_min, red_max, red_init);
+            sRed.addChangeListener(new redChangeListener());
+            sGreen = new JSlider(JSlider.HORIZONTAL,green_min, green_max, green_init);
+            sGreen.addChangeListener(new greenChangeListener());
+            sBlue = new JSlider(JSlider.HORIZONTAL,blue_min, blue_max,blue_init);
+            sBlue.addChangeListener(new blueChangeListener());
+            setLayout(new BorderLayout());
+            
+
+
+            buttonField = new JPanel();
+            buttonField.setBackground(Color.WHITE);
+            buttonField.setLayout(new GridLayout(2,2));
+            
+            JButton bNew = new JButton("New");
+            bNew.addActionListener(new createActionListener());
+            JButton bFilter = new JButton("Filter");
+            bFilter.addActionListener(new FilterActionListener());
+            JButton bOpen = new JButton("Open");
+            bOpen.addActionListener(new OpenActionListener());
+            JButton bSave = new JButton("Save");
+            bSave.addActionListener(new SaveActionListener());
+
+
+            buttonField.add(bNew);
+            buttonField.add(bFilter);
+            
+            buttonField.add(bOpen);
+            buttonField.add(bSave);
+
+
+
+
+            colorpicker = new JPanel();
+            color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
+            colorpicker.setBackground(color);
+
+            
+
+            
+            sliderField = new JPanel();
+            sliderField.setLayout(new GridLayout(3,3));
+
+            sliderField.add(red);
+            sliderField.add(sRed);
+            sliderField.add(tRed);
+            
+            sliderField.add(blue);
+            sliderField.add(sBlue);
+            sliderField.add(tBlue);
+
+            sliderField.add(green);
+            sliderField.add(sGreen);
+            sliderField.add(tGreen);
+            
+            tools = new JPanel();
+            tools.setBackground(Color.WHITE);
+            tools.setLayout(new GridLayout(3,1));
+            Dimension d = new Dimension(200,400);
+            tools.setPreferredSize(d);
+            add(tools, BorderLayout.WEST);
+            
+            tools.add(buttonField);
+            tools.add(colorpicker);
+            tools.add(sliderField);
         
-        tRed = new JTextField();
-        tRed.setText(String.valueOf(red_init));
-        tGreen = new JTextField();
-        tGreen.setText(String.valueOf(green_init));
-        tBlue = new JTextField();
-        tBlue.setText(String.valueOf(blue_init));
-        
-        sRed = new JSlider(JSlider.HORIZONTAL,red_min, red_max, red_init);
-        sRed.addChangeListener(new redChangeListener());
-        sGreen = new JSlider(JSlider.HORIZONTAL,green_min, green_max, green_init);
-        sGreen.addChangeListener(new greenChangeListener());
-        sBlue = new JSlider(JSlider.HORIZONTAL,blue_min, blue_max,blue_init);
-        sBlue.addChangeListener(new blueChangeListener());
-        setLayout(new BorderLayout());
-        
-
-
-        top = new JPanel();
-        top.setBackground(Color.WHITE);
-        add(top, BorderLayout.NORTH);
-        top.setLayout(new GridLayout(2,2));
-        
-        JButton bNew = new JButton("New");
-        bNew.addActionListener(new createActionListener());
-        JButton bFilter = new JButton("Filter");
-        bFilter.addActionListener(new FilterActionListener());
-        JButton bOpen = new JButton("Open");
-        bOpen.addActionListener(new OpenActionListener());
-        JButton bSave = new JButton("Save");
-        bSave.addActionListener(new SaveActionListener());
-
-
-        top.add(bNew);
-        top.add(bFilter);
-        
-        top.add(bOpen);
-        top.add(bSave);
-
-
-
-
-        middle = new JPanel();
-        color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
-        middle.setBackground(color);
-        Dimension d = new Dimension(400,190);
-        middle.setPreferredSize(d);
-        add(middle, BorderLayout.CENTER);
-
-        
-
-        
-        bottom = new JPanel();
-        add(bottom, BorderLayout.SOUTH);
-        bottom.setLayout(new GridLayout(3,3));
-
-        bottom.add(red);
-        bottom.add(sRed);
-        bottom.add(tRed);
-        
-        bottom.add(blue);
-        bottom.add(sBlue);
-        bottom.add(tBlue);
-
-        bottom.add(green);
-        bottom.add(sGreen);
-        bottom.add(tGreen);
-
-    
-        setSize(450,350);
-        setVisible(true);
-        setTitle("MainEditor");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+            setSize(1000,1000);
+            setVisible(true);
+            setTitle(title);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
     }   
-        
+    
 }
