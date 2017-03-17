@@ -1,0 +1,323 @@
+
+
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.RenderingHints.Key;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.EventListener;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.border.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import javafx.scene.input.MouseEvent;
+
+
+
+public class MainEditor extends JFrame {
+
+    private JPanel tools, buttonField, colorpicker, sliderField, drawPanel, right;
+    private JSlider sRed, sGreen, sBlue;
+    private JLabel red, green, blue;
+    private JTextField tRed, tGreen, tBlue;
+    private JButton bNew, bSave, bOpen, bFilter;
+    
+    private Color color;
+    
+    static final int red_min = 0, green_min = 0, blue_min = 0;
+    static final int red_max = 255, green_max = 255, blue_max = 255;
+    static final int red_init =127, green_init =127, blue_init = 127;
+    
+    public static void main(String [] args) {
+        MainEditor changer = new MainEditor();
+        changer.CreatePanel("MainEditor");
+    }
+    
+    public class redChangeListener implements ChangeListener {
+        public void stateChanged(ChangeEvent e) {
+            tRed.setText(String.valueOf(sRed.getValue()));
+            color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
+            colorpicker.setBackground(color);
+        }
+    }
+    
+    public class greenChangeListener implements ChangeListener {
+        public void stateChanged(ChangeEvent e) {
+            tGreen.setText(String.valueOf(sGreen.getValue()));
+            color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
+            colorpicker.setBackground(color);
+        }
+    }
+    
+    public class blueChangeListener implements ChangeListener {
+        public void stateChanged(ChangeEvent e) {
+            tBlue.setText(String.valueOf(sBlue.getValue()));
+            color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
+            colorpicker.setBackground(color);
+        }
+    }
+    
+
+    //New Window
+    public class createActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+            MainEditor changer = new MainEditor();
+            changer.CreatePanel("Artboard");
+        }
+    }
+
+
+    //Filter
+    public class FilterActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+
+
+        }
+    }
+
+    //Open
+    public class OpenActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+            MainEditor changer = new MainEditor();
+            changer.CreatePanel("Artboard");
+        }
+    }
+    //Save
+    public class SaveActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+
+
+        }
+    }
+
+    //Draw funktion.........
+
+
+    //Oeffnen .... 
+
+    public class Oeffner implements ImageObserver {
+       private Image image;
+     
+       public Oeffner(Image image) {
+          setImage(image);
+       }
+     
+       public void setImage(Image image) {
+          this.image = image;
+          repaint();
+       }
+       
+       public Dimension getPreferredSize() {
+           return new Dimension(image.getWidth(this), image.getHeight(this));
+       }
+     
+       public void paint(Graphics g) {
+          super.paint(g);
+          if(image != null) {
+             g.drawImage(image, 0, 0, this);
+          }
+       }
+
+    @Override
+    public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    }
+
+    JFileChooser chooser = null;
+
+    public JFileChooser getFileChooser() {
+        if (chooser==null) {
+            chooser = new JFileChooser();
+            FileNameExtensionFilter ff = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+            chooser.setFileFilter(ff);
+        }
+        return chooser;
+
+    }
+
+
+    public void CreatePanel(String title) {
+        if (title == "MainEditor"){
+            red = new JLabel("rot:", SwingConstants.CENTER);
+            green = new JLabel("grün:", SwingConstants.CENTER);
+            blue = new JLabel("blau:", SwingConstants.CENTER);
+            
+            tRed = new JTextField();
+            tRed.setText(String.valueOf(red_init));
+            tGreen = new JTextField();
+            tGreen.setText(String.valueOf(green_init));
+            tBlue = new JTextField();
+            tBlue.setText(String.valueOf(blue_init));
+            
+            sRed = new JSlider(JSlider.HORIZONTAL,red_min, red_max, red_init);
+            sRed.addChangeListener(new redChangeListener());
+            sGreen = new JSlider(JSlider.HORIZONTAL,green_min, green_max, green_init);
+            sGreen.addChangeListener(new greenChangeListener());
+            sBlue = new JSlider(JSlider.HORIZONTAL,blue_min, blue_max,blue_init);
+            sBlue.addChangeListener(new blueChangeListener());
+            setLayout(new BorderLayout());
+            
+
+
+            buttonField = new JPanel();
+            buttonField.setBackground(Color.WHITE);
+            add(buttonField, BorderLayout.NORTH);
+            buttonField.setLayout(new GridLayout(2,2));
+            
+            JButton bNew = new JButton("New");
+            bNew.addActionListener(new createActionListener());
+            JButton bFilter = new JButton("Filter");
+            bFilter.addActionListener(new FilterActionListener());
+            JButton bOpen = new JButton("Open");
+            bOpen.addActionListener(new OpenActionListener());
+            JButton bSave = new JButton("Save");
+            bSave.addActionListener(new SaveActionListener());
+
+
+            buttonField.add(bNew);
+            buttonField.add(bFilter);
+            
+            buttonField.add(bOpen);
+            buttonField.add(bSave);
+
+
+
+
+            colorpicker = new JPanel();
+            color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
+            colorpicker.setBackground(color);
+            Dimension d = new Dimension(400,190);
+            colorpicker.setPreferredSize(d);
+            add(colorpicker, BorderLayout.CENTER);
+
+            
+
+            
+            sliderField = new JPanel();
+            add(sliderField, BorderLayout.SOUTH);
+            sliderField.setLayout(new GridLayout(3,3));
+
+            sliderField.add(red);
+            sliderField.add(sRed);
+            sliderField.add(tRed);
+            
+            sliderField.add(blue);
+            sliderField.add(sBlue);
+            sliderField.add(tBlue);
+
+            sliderField.add(green);
+            sliderField.add(sGreen);
+            sliderField.add(tGreen);
+
+        
+            setSize(450,350);
+            setVisible(true);
+            setTitle(title);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+            
+        } else if (title == "Artboard"){
+            red = new JLabel("rot:", SwingConstants.CENTER);
+            green = new JLabel("grün:", SwingConstants.CENTER);
+            blue = new JLabel("blau:", SwingConstants.CENTER);
+            
+            tRed = new JTextField();
+            tRed.setText(String.valueOf(red_init));
+            tGreen = new JTextField();
+            tGreen.setText(String.valueOf(green_init));
+            tBlue = new JTextField();
+            tBlue.setText(String.valueOf(blue_init));
+            
+            sRed = new JSlider(JSlider.HORIZONTAL,red_min, red_max, red_init);
+            sRed.addChangeListener(new redChangeListener());
+            sGreen = new JSlider(JSlider.HORIZONTAL,green_min, green_max, green_init);
+            sGreen.addChangeListener(new greenChangeListener());
+            sBlue = new JSlider(JSlider.HORIZONTAL,blue_min, blue_max,blue_init);
+            sBlue.addChangeListener(new blueChangeListener());
+            setLayout(new BorderLayout());
+            
+   
+
+            buttonField = new JPanel();
+            buttonField.setBackground(Color.WHITE);
+            buttonField.setLayout(new GridLayout(2,2));
+            
+            JButton bNew = new JButton("New");
+            bNew.addActionListener(new createActionListener());
+            JButton bFilter = new JButton("Filter");
+            bFilter.addActionListener(new FilterActionListener());
+            JButton bOpen = new JButton("Open");
+            bOpen.addActionListener(new OpenActionListener());
+            JButton bSave = new JButton("Save");
+            bSave.addActionListener(new SaveActionListener());
+
+
+            buttonField.add(bNew);
+            buttonField.add(bFilter);
+            
+            buttonField.add(bOpen);
+            buttonField.add(bSave);
+
+
+
+
+            colorpicker = new JPanel();
+            color = new Color(sRed.getValue(),sGreen.getValue(),sBlue.getValue());
+            colorpicker.setBackground(color);
+
+            
+
+            
+            sliderField = new JPanel();
+            sliderField.setLayout(new GridLayout(3,3));
+
+            sliderField.add(red);
+            sliderField.add(sRed);
+            sliderField.add(tRed);
+            
+            sliderField.add(blue);
+            sliderField.add(sBlue);
+            sliderField.add(tBlue);
+
+            sliderField.add(green);
+            sliderField.add(sGreen);
+            sliderField.add(tGreen);
+            
+
+            drawPanel = new JPanel();
+            add(drawPanel, BorderLayout.CENTER);
+            drawPanel.setBackground(color.WHITE);
+
+            
+            tools = new JPanel();
+            tools.setBackground(Color.WHITE);
+            tools.setLayout(new GridLayout(3,1));
+            Dimension d = new Dimension(200,400);
+            tools.setPreferredSize(d);
+            add(tools, BorderLayout.WEST);
+            
+            tools.add(buttonField);
+            tools.add(colorpicker);
+            tools.add(sliderField);
+        
+            setSize(1000,1000);
+            setVisible(true);
+            setTitle(title);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
+    }   
+    
+}
