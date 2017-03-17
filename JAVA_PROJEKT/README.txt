@@ -9,17 +9,17 @@ Unsere Ordner Struktur bei den anderen "versuchen" ist eine Katastrophe.
 Deswegen hier ein paar Anforderungen, die ich Speziell für das neue "Projekt" in diesem Ordner verlange:
 
 Wir sollten uns noch einmal Treffen und gruendlich alles durchgehen was das Programm beinhalten soll und wie es aussehen soll.
-  Das wird anschliessend hier als PDF hochgeladen um ein Bild davon zu haben wohin uns der Weg fuehrt.
+Das wird anschliessend hier als PDF hochgeladen um ein Bild davon zu haben wohin uns der Weg fuehrt.
   
-  Ein Zeitstrahl oder so waere nicht schlecht auf dem die Fristen stehen wann was fertig sein sollte.
-  Das sollte uns klarmachen wie weit wir sind und wieviel Zeit wir darin investieren koennen/muessen. (Es sollte uns auch 
-  eine hilfe sein um eine entgueltige Deadline fuer das Projekt zu ziehen.)
+Ein Zeitstrahl oder so waere nicht schlecht auf dem die Fristen stehen wann was fertig sein sollte.
+Das sollte uns klarmachen wie weit wir sind und wieviel Zeit wir darin investieren koennen/muessen. (Es sollte uns auch 
+eine hilfe sein um eine entgueltige Deadline fuer das Projekt zu ziehen.)
   
-Ich möchte, dass der ablauf dieses Projektes (relativ) glatt verlaeuft, Probleme entstehen natürlich, aber wenn wir
-nicht gemeinsam versuchen sie zu lösen ist es uns keine große Hilfe. Besorgt euch Bücher (PDFs) die uns zur verfügung stehen.
-Wir können sie uns über das HAW Netzwerk laden und nutzen.
+Ich moechte, dass der ablauf dieses Projektes (relativ) glatt verlaeuft, Probleme entstehen natürlich, aber wenn wir
+nicht gemeinsam versuchen sie zu loesen ist es uns keine große Hilfe. Besorgt euch Bücher (PDFs) die uns zur verfügung stehen.
+Wir koennen sie uns über das HAW Netzwerk laden und nutzen.
 
-Vorweg: der Bisherige Aufbau soweit ich das noch in Erinnerung habe:
+Unser Bisheriger Aufbau soweit ich das noch in Erinnerung habe:
 
   1. Paint Funktion
       - Uns soll möglich sein in verschiedenen Farben malen zu können
