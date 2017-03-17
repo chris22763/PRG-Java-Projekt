@@ -8,7 +8,7 @@ Unsere Ordner Struktur bei den anderen "versuchen" ist eine Katastrophe.
 
 Deswegen hier ein paar Anforderungen, die ich Speziell für das neue "Projekt" in diesem Ordner verlange:
 
-Wir sollten uns noch einmal Treffen und gründlich alles durchgehen was das Programm beinhalten soll und wie es aussehen soll.
+Wir sollten uns noch einmal Treffen und gruendlich alles durchgehen was das Programm beinhalten soll und wie es aussehen soll.
   Das wird anschliessend hier als PDF hochgeladen um ein Bild davon zu haben wohin uns der Weg fuehrt.
   
   Ein Zeitstrahl oder so waere nicht schlecht auf dem die Fristen stehen wann was fertig sein sollte.
