@@ -22,10 +22,10 @@ Wir koennen sie uns über das HAW Netzwerk laden und nutzen.
 Unser Bisheriger Aufbau soweit ich das noch in Erinnerung habe:
 
   1. Paint Funktion
-      - Uns soll möglich sein in verschiedenen Farben malen zu können
+      - Moeglichkeit in verschiedenen Farben zu malen
       - Strichdicke (?)
       - (Fuegt hier noch was hinzu falls ich es vergessen habe!)
-  2. Öffnen / Speichern von Bildern
+  2. Oeffnen / Speichern von Bildern
       - Erklaert sich eigentlich von selbst.
       - (Fuegt hier noch was hinzu falls ich es vergessen habe!)
   3. Filter
