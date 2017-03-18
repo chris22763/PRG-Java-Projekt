@@ -71,4 +71,57 @@ public class GUI extends JFrame {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //Schließen
     }
+
+
+    
+    // MouseMotion Class implementiert ML und MML, es ist notwendig das alle Funktionen aufgeschrieben werden, 
+    //sonnst funktioniert es nicht. Aber daran arbeite ich es gibt nähmlich noch MouseAdapter, aber das hat grad nicht funktioniert 
+    
+    public class MouseMotion implements MouseListener, MouseMotionListener{
+        
+       
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			x = e.getX();											// bekommt e von der Methode und gibt X aus
+            y = e.getY();											// bekommt e von der Methode und gibt X aus
+            System.out.println("Dragged  : " + x + " , " + y);		// schreibt den wert in die Konsole
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e){
+            
+        }
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e){                 //hier passiert das selbe wie in mouseDragged
+            x = e.getX();                                       //nur halt beim kurzen drücken.
+            y = e.getY();
+            System.out.println("Pressed  : " + x + " , " + y);
+        }
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+        
+    }
 }
