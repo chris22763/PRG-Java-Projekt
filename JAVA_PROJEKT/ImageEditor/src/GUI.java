@@ -2,13 +2,7 @@ package ImageEditor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-
-/**
- * Created by Cem on 17.03.17.
- */
+import java.awt.event.*
 
 
 public class GUI extends JFrame {
@@ -24,6 +18,8 @@ public class GUI extends JFrame {
 
     private JButton colorChooserButton = new JButton("Choose Color"); //Farbwahl Button
     private JButton filterChooserButton = new JButton("Choose Filter"); //Filterauswahl Button
+    
+    private double x,y; 			// Koordinaten sind immer Double ...
 
 
 
