@@ -19,7 +19,7 @@ public class GUI extends JFrame {
     private JButton colorChooserButton = new JButton("Choose Color"); //Farbwahl Button
     private JButton filterChooserButton = new JButton("Choose Filter"); //Filterauswahl Button
     
-    private double x,y; 			// Koordinaten sind immer Double ...
+    // private double x,y; 			// Koordinaten sind immer Double ...
 
 
 
@@ -33,8 +33,11 @@ public class GUI extends JFrame {
         fileMenu.add(saveMenuItem);
 
 
-        add(mainPanel);                                             //MainPanel hinzugefügt, dient als Zeichenfläche/Bildfläche
-
+       	add(mainPanel);                                             //MainPanel hinzugefügt, dient als Zeichenfläche/Bildfläche
+       	//MouseMotion mm = new MouseMotion();							// initialisiert MouseMotion
+       	//mainPanel.addMouseListener(mm);								// fügt ML & MML hinzu 
+       	//mainPanel.addMouseMotionListener(mm);
+        
         add(naviPanel, BorderLayout.WEST);                          // NaviPanel hinzugefügt, dient als Naviagationsleiste, links angeordnet
         naviPanel.add(colorChooserButton, BorderLayout.NORTH);      // ColorchooserButton in NaviPanel integriert, Farbauswahl
 
@@ -73,7 +76,7 @@ public class GUI extends JFrame {
     // MouseMotion Class implementiert ML und MML, es ist notwendig das alle Funktionen aufgeschrieben werden, 
     //sonnst funktioniert es nicht. Aber daran arbeite ich es gibt nähmlich noch MouseAdapter, aber das hat grad nicht funktioniert 
     
-    public class MouseMotion implements MouseListener, MouseMotionListener{
+    /*public class MouseMotion implements MouseListener, MouseMotionListener{
         
        
 		@Override
@@ -119,5 +122,5 @@ public class GUI extends JFrame {
 			
 		}
         
-    }
+    }*/
 }
