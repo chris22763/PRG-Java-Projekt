@@ -31,7 +31,45 @@ public class GUI extends JFrame {
         menuBar.add(fileMenu);              //File Menu in MenuBar integriert
         fileMenu.add(openMenuItem);         //Open und Save in FileMenu integriert
         fileMenu.add(saveMenuItem);
+	    
+	// FileMenu Open/Save
+	
+	
+        openMenuItem.addActionListener( new ActionListener() {        //Datei Öffnen
+            public void actionPerformed(ActionEvent event) {
+                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Filechooser startet im home-Verzeichnis des Users
+                int result = fileChooser.showOpenDialog(openMenuItem);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile(mainPanel);
+                    setIconImage(fileChooser)
+                    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                    setVisible(true);
+                }
+            }
 
+
+        });
+
+        /*saveMenuItem.addActionListener( new ActionListener() {        //Datei Speichern
+            public void actionPerformed(ActionEvent event) {
+                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Filechooser sucht speicherort im home-Verzeichnis des Users
+                int result = fileChooser.showOpenDialog(saveMenuItem);
+                JFileChooser fileChooser = new JFileChooser();
+                if (fileChooser.showSaveDialog(saveMenuItem) == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    // save to file
+                }
+            }
+
+
+        });
+        */
+	 
+	// FileMenu Open/Save
+	    
+	    
+	    
+	    
 
        	add(mainPanel);                                             //MainPanel hinzugefügt, dient als Zeichenfläche/Bildfläche
        	//MouseMotion mm = new MouseMotion();							// initialisiert MouseMotion
