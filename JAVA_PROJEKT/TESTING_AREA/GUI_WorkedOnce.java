@@ -11,9 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -23,6 +25,8 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import javafx.stage.FileChooser;
 
 
 
@@ -41,6 +45,7 @@ public class GUI_WorkedOnce extends JFrame {
 
     private JButton colorChooserButton = new JButton("Choose Color"); //Farbwahl Button
     private JButton filterChooserButton = new JButton("Choose Filter"); //Filterauswahl Button
+    private JFileChooser fileChooser = new JFileChooser(); // Filechooser
 
     private int xFrom,yFrom;					// X & Y Koordinaten für z.B. g.drawline(von x1,y1, nach x2,y2)
     private int xTo,yTo;					// X & Y Koordinaten 
@@ -72,7 +77,7 @@ public class GUI_WorkedOnce extends JFrame {
         
         
         
-        //menu Init
+      //menu Init
         add(menuBar, BorderLayout.NORTH);   //Menubar Oben
         menuBar.add(fileMenu);              //File Menu in MenuBar integriert
         fileMenu.add(openMenuItem);         //Open und Save in FileMenu integriert
@@ -102,8 +107,22 @@ public class GUI_WorkedOnce extends JFrame {
 
         });
         
+        openMenuItem.addActionListener( new ActionListener() {        //Datei Öffnen
+            public void actionPerformed(ActionEvent event) {
+                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Filechooser startet im home-Verzeichnis des Users
+                int result = fileChooser.showOpenDialog(openMenuItem);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                    setVisible(true);
+                }
+            }
+
+
+        });
+        
         pinselSlider = new JSlider(pinsel_min, pinsel_max, pinsel_init); 	// Initialisierung des sliders und das hinzufügen
-        pinselSlider.addChangeListener(new ChangeListener() {			// des ChangeListeners um tPisnel bei veränderungen
+        pinselSlider.addChangeListener(new ChangeListener() {				// des ChangeListeners um tPisnel bei veränderungen
 										// direkt zu übernehmen.
 			public void stateChanged(ChangeEvent e) {
 				tPinsel.setText(String.valueOf(pinselSlider.getValue()));
@@ -131,8 +150,7 @@ public class GUI_WorkedOnce extends JFrame {
         pack();                                                 // Setzt das Fenster dass alle Komponenten angepasst sichtbar sind.
 
 
-    }
-    
+    }    
     
     /*public class draw extends JPanel{
         private int xFrom,yFrom,xTo,yTo;
