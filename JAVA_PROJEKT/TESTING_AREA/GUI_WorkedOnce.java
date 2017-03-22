@@ -43,20 +43,20 @@ public class GUI_WorkedOnce extends JFrame {
     private JButton colorChooserButton = new JButton("Choose Color"); //Farbwahl Button
     private JButton filterChooserButton = new JButton("Choose Filter"); //Filterauswahl Button
 
-    int xFrom,yFrom;
-    int xTo,yTo;
-    private int pinsel_init = 1;
-    private int pinsel_min = 1;
-    private int pinsel_max = 100;
-    private int BI_heigth = 600;
-    private int BI_width = 800;
-    private Color farbe; 
-    private JSlider pinselSlider;
-    private JTextArea tPinsel;
-    private Graphics g = null;
-    private Graphics2D g2D = null;
+    private int xFrom,yFrom;					// X & Y Koordinaten für z.B. g.drawline(von x1,y1, nach x2,y2)
+    private int xTo,yTo;					// X & Y Koordinaten 
+    private int pinsel_init = 1;				//pinsel _init/_min/_max sind für den slider wichtig.			
+    private int pinsel_min = 1;					
+    private int pinsel_max = 20;				//Max Pinsel Größe empfehlung : nicht mehr als 20
+    private int BI_heigth = 600;				//Globale Variablen für Höhe und breite vom MainPanel
+    private int BI_width = 800;					//und Bufferedimage, damit diese auch gleich groß sind
+    private Color farbe; 					//Zum Globalen speichern der farbe vom JColorChooser
+    private JSlider pinselSlider;				
+    private JTextArea tPinsel;					//Ausgabe der Pinsel größe
+    private Graphics g = null;					//initialisierung von Graphics, für "getGraphics()"
+    private Graphics2D g2D = null;				//initialisierung von Graphics2D für "setStroke()" 
     private BufferedImage image = new BufferedImage(BI_width, BI_heigth, BufferedImage.TYPE_INT_RGB);
-    private int border = 100;
+    private int border = 100;					//Rand zum malen um nicht die UI voll zu kritzeln.
     //private draw mainPanel = new draw();
 
 
@@ -80,11 +80,10 @@ public class GUI_WorkedOnce extends JFrame {
         fileMenu.add(saveMenuItem);
 
 
-        add(mainPanel);                                             //MainPanel hinzugefügt, dient als Zeichenfläche/Bildfläche
+        add(mainPanel);                                             // MainPanel hinzugefügt, dient als Zeichenfläche/Bildfläche
         
        // mainPanel.add(image);
         MouseMotion mm = new MouseMotion();                         // initialisiert MouseMotion
-        
         mainPanel.addMouseListener(mm);                             // fügt ML & MML hinzu
         mainPanel.addMouseMotionListener(mm);
         
@@ -96,7 +95,7 @@ public class GUI_WorkedOnce extends JFrame {
         
 
 
-        colorChooserButton.addActionListener( new ActionListener() {        // Farbauswahl Treffen
+        colorChooserButton.addActionListener( new ActionListener() {        	// Farbauswahl Treffen
             public void actionPerformed(ActionEvent event) {
                 farbe = JColorChooser.showDialog(colorPanel, "Choose a color", Color.blue); // mit "color" weiter benutzen
             }
@@ -104,9 +103,9 @@ public class GUI_WorkedOnce extends JFrame {
 
         });
         
-        pinselSlider = new JSlider(pinsel_min, pinsel_max, pinsel_init);
-        pinselSlider.addChangeListener(new ChangeListener() {
-			
+        pinselSlider = new JSlider(pinsel_min, pinsel_max, pinsel_init); 	// Initialisierung des sliders und das hinzufügen
+        pinselSlider.addChangeListener(new ChangeListener() {			// des ChangeListeners um tPisnel bei veränderungen
+										// direkt zu übernehmen.
 			public void stateChanged(ChangeEvent e) {
 				tPinsel.setText(String.valueOf(pinselSlider.getValue()));
 				
@@ -159,61 +158,31 @@ public class GUI_WorkedOnce extends JFrame {
         	
 
     }*/
+	
+	
+	
+	
     //MouseMotion Class implementiert ML und MML, es ist notwendig das alle Funktionen aufgeschrieben werden,
     //sonnst funktioniert es nicht. Aber daran arbeite ich es gibt nähmlich noch MouseAdapter, aber das hat grad nicht funktioniert
-    public class MouseMotion /*extends JFrame*/ implements MouseListener, MouseMotionListener{
+    public class MouseMotion extends MouseAdapter{
 
-  
-    	
-    	
-    	
-    	
         public void mouseDragged(MouseEvent event) {
         	
         	Graphics g = getGraphics();
         	Graphics2D g2D = (Graphics2D) g;
-            //(Graphics2D g2D = image.createGraphics();
-            g2D.setColor(farbe);
-            g2D.setStroke(new BasicStroke(pinselSlider.getValue()));
-            if ((xFrom >= border)&&(yFrom >= border)){
-            	g2D.drawLine(xFrom+BI_width/4, yFrom+40, event.getX()+BI_width/4, event.getY()+40);
-            }
+            	//(Graphics2D g2D = image.createGraphics();
+            	g2D.setColor(farbe);
+            	g2D.setStroke(new BasicStroke(pinselSlider.getValue()));
+            	if ((xFrom >= border)&&(yFrom >= border)){
+            		g2D.drawLine(xFrom+BI_width/4, yFrom+40, event.getX()+BI_width/4, event.getY()+40);
+           	 }
             
         	
-            //mainPanel.drawing(xFrom,yFrom,event.getX(),event.getY());
-            xFrom = event.getX();
-            yFrom = event.getY();
-            
-
-            
+           	//mainPanel.drawing(xFrom,yFrom,event.getX(),event.getY());
+           	xFrom = event.getX();
+            	yFrom = event.getY();    
         }
-		@Override
-		public void mouseMoved(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-        @Override
+	
         public void mousePressed(MouseEvent event){                 //hier passiert das selbe wie in mouseDragged
            xFrom = event.getX();
            yFrom = event.getY();
