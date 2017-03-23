@@ -56,12 +56,9 @@ public class GUI extends JFrame {
     private int pinsel_max = 20;                //Max Pinsel Größe empfehlung : nicht mehr als 20
     private int BI_heigth = 600;                //Globale Variablen für Höhe und breite vom MainPanel
     private int BI_width = 800;                 //und Bufferedimage, damit diese auch gleich groß sind
-    private boolean pStyle = true;
     private Color farbe;                        //Zum Globalen speichern der farbe vom JColorChooser
-    private JSlider pinselSlider;               
-    private JCheckBox pStyleBox;
+    private JSlider pinselSlider;       
     private JTextArea tPinsel;                  //Ausgabe der Pinsel größe
-    private JTextArea tStyle;
     private Graphics g = null;                  //initialisierung von Graphics, für "getGraphics()"
     private Graphics2D g2D = null;              //initialisierung von Graphics2D für "setStroke()" 
     private BufferedImage image = new BufferedImage(BI_width, BI_heigth, BufferedImage.TYPE_INT_RGB);
@@ -70,9 +67,7 @@ public class GUI extends JFrame {
 
 
     public static void main(String[] args) {
-        GUI frame = new GUI("HentaiTenticalVirus.exe");
-
-
+        GUI frame = new GUI("Painto");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //Schließen
     }
@@ -150,20 +145,9 @@ public class GUI extends JFrame {
                 }
             }
         });
-
-        pStyleBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                tStyle.setText("Pinsel = Kreis ");
-                
-            }
-        })
-
-
-        tStyle.setText("Pinsel = Quadrat ");
-
+ 
         naviPanel.add(filterChooserButton, BorderLayout.NORTH); // FilterChooserButton in NaviPanel integriert, Filterauswahl
-        naviPanel.add(tStyle);
-        naviPanel.add(pStyleBox);
+      
 
 
 
@@ -184,29 +168,7 @@ public class GUI extends JFrame {
 
 
     }
-    
-    
-    /*public class draw extends JPanel{
-        private int xFrom,yFrom,xTo,yTo;
-
-         public void drawing(int xFirst, int yFirst, int xSecond, int ySecond){
-                xFrom = xFirst;
-                yFrom = yFirst;
-                xTo = xSecond;
-                yTo = ySecond;
-                System.out.println("test");
-                repaint();
-            }
-            
-            BufferedImage image;
-            public void paintComponent(Graphics g){
-                super.paintComponent(g);
-                if(image != null){
-                    g.drawImage(image, 0, 0, this);
-                }
-            }
-            
-    }*/
+ 
     
     
     
@@ -222,8 +184,6 @@ public class GUI extends JFrame {
             
             Graphics g = getGraphics();
             Graphics2D g2D = (Graphics2D) g;
-            //g2D = image.createGraphics();
-            //(Graphics2D g2D = image.createGraphics();
             g2D.setColor(farbe);
             g2D.setStroke(new BasicStroke(pinselSlider.getValue()));
             
@@ -233,14 +193,14 @@ public class GUI extends JFrame {
             xTo = event.getX()+offsetX;
             yTo = event.getY()+offsetY;
             
-            if ((xFrom >= border)&&(yFrom >= border)){
-                if (pStyle){
-                    g2D.drawLine(xFrom, yFrom, xTo, yTo);
+            if ((xFrom >= border)&&(yFrom >= border)){ 			//Stellt sicher das man das UI nicht voll malt 
+                if ((pinselSlider.getValue())<=10){				// Ab der Pinselstärke 10 werden nur noch kreise anstatt
+                    g2D.drawLine(xFrom, yFrom, xTo, yTo);		// Rechteckigen linien gemalt.
                 }else {
                     g2D.drawOval(xTo, yTo, pinselSlider.getValue(), pinselSlider.getValue());
                 }
             }
-            //mainPanel.drawing(xFrom,yFrom,event.getX(),event.getY());
+            
             xFrom = event.getX();
             yFrom = event.getY();
 
@@ -255,3 +215,4 @@ public class GUI extends JFrame {
         }
     }
 }
+    
